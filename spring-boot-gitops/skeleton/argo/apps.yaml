@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${{values.component_id}}
+  namespace: ${{values.component_id}}
+spec:
+  destination:
+    namespace: ${{values.component_id}}
+    server: https://kubernetes.default.svc
+  project: ${{values.component_id}}
+  source:
+    kustomize:
+      namespace: ${{values.component_id}}
+    path: kustomize/overlays/dev
+    repoURL: ${{ values.destination.host + '/' + values.destination.owner + '/' + values.destination.repo}
+    targetRevision: HEAD
